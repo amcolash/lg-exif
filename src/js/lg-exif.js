@@ -35,10 +35,10 @@
             } else if (value === "DateTimeOriginal") {
                 data = this.parseDate(data).toLocaleString();
             } else if (value === "GPSLatitude" && this.exif.Geo) {
-                data = this.exif.Geo[0].toFixed(5);
+                data = Math.abs(this.exif.Geo[0].toFixed(5));
                 suffix = " " + this.exif.GPSLatitudeRef;
             } else if (value === "GPSLongitude" && this.exif.Geo) {
-                data = this.exif.Geo[1].toFixed(5);
+                data = Math.abs(this.exif.Geo[1].toFixed(5));
                 suffix = " " + this.exif.GPSLongitudeRef;
             } else if (!isNaN(data)) {
                 data = +parseFloat(data).toFixed(2);
@@ -92,7 +92,7 @@
 
         EXIF.getData(img, function () {
             _this.exif = EXIF.getAllTags(this);
-            console.log(_this.exif);
+            // console.log(_this.exif);
             _this.exif.Geo = _this.updateGeo();
             _this.exif.Filename = img.alt;
 
@@ -143,7 +143,9 @@
 
     Exif.prototype.updateGeo = function() {
         if (this.exif.GPSLatitude && this.exif.GPSLongitude) {
-            return [this.parseDMS(this.exif.GPSLatitude), this.parseDMS(this.exif.GPSLongitude)];
+            var lat = this.parseDMS(this.exif.GPSLatitude) * (this.exif.GPSLatitudeRef === "S" ? -1 : 1);
+            var lng = this.parseDMS(this.exif.GPSLongitude) * (this.exif.GPSLongitudeRef === "W" ? -1 : 1);
+            return [lat, lng];
         }
 
         return null;
