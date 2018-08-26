@@ -1,0 +1,87 @@
+.lg {
+    width: auto !important;
+    border-right: 2px solid #666;
+}
+
+.lg-exif {
+    color: #ccc;
+    padding: 1em;
+    float: right;
+    height: 100%;
+    max-width: 300px;
+    margin-right: 0;
+    background-color: #0D0A0A;
+    transition: all 0.25s;
+}
+
+.lg-exif.hidden {
+    margin-right: -300px;
+}
+
+.lg-exif h3 {
+    color: #ccc;
+}
+
+.lg-exif li {
+    list-style: none;
+    padding-top: 0.5em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.lg-exif h3 {
+    float: left;
+}
+
+.lg-exif .lg-hide {
+    float: right;
+    color: #999;
+    font-size: 22px;
+    margin-top: -4px;
+    cursor: pointer;
+}
+
+.lg-exif .lg-hide:hover {
+    color: white;
+}
+
+.lg-exif .lg-hide:after {
+    content: "\e070";
+}
+
+.lg-exif hr {
+    clear: both;
+    border-color: #ccc;
+}
+
+.lg-info:after {
+    content: "\e906";
+}
+
+@font-face {
+  font-family: 'exif';
+  src:  url('../fonts/exif.eot?e7dmv8');
+  src:  url('../fonts/exif.eot?e7dmv8#iefix') format('embedded-opentype'),
+    url('../fonts/exif.ttf?e7dmv8') format('truetype'),
+    url('../fonts/exif.woff?e7dmv8') format('woff'),
+    url('../fonts/exif.svg?e7dmv8#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.lg-toolbar .lg-info {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'exif' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  padding-top: 12px;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
