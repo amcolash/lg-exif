@@ -22,6 +22,10 @@
     color: #ccc;
 }
 
+.lg-exif ul {
+    padding: 0;
+}
+
 .lg-exif li {
     list-style: none;
     padding-top: 0.5em;

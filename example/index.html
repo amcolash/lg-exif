@@ -2,15 +2,42 @@
 
   <head>
     <title>Lightgallery Exif Test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="../src/css/lg-exif.css" />
   </head>
 
-  <body>
+  <body style="font-family: sans-serif">
     <h3>Test Page (Click on Image)</h3>
-    <img src="test.jpg" alt="Test Image" width="600px">
-    <br><br>
-     By <a href="//commons.wikimedia.org/wiki/User:Tobi_87" title="User:Tobi 87">Tobi 87</a> - <span class="int-own-work" lang="en">Own
-      work</span>, <a href="https://creativecommons.org/licenses/by-sa/3.0" title="Creative Commons Attribution-Share Alike 3.0">CC
-      BY-SA 3.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=35923667">Link</a>
+    <div id="lightgallery">
+      <a href="test.jpg" class="item">
+        <img src="test.jpg" width="500px"/>
+      </a>
+      
+      <p>
+        By <a href="//commons.wikimedia.org/wiki/User:Tobi_87" title="User:Tobi 87">Tobi 87</a> - <span class="int-own-work" lang="en">Own
+          work</span>, <a href="https://creativecommons.org/licenses/by-sa/3.0" title="Creative Commons Attribution-Share Alike 3.0">CC
+          BY-SA 3.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=35923667">Link</a>
+      </p>
+
+      <a href="test2.jpg" class="item">
+        <img src="test2.jpg" width="500px"/>
+      </a>
+
+      <p>
+        By <a href="//commons.wikimedia.org/wiki/User:Uoaei1" title="User:Uoaei1">Uoaei1</a> - <span class="int-own-work" lang="en">Own
+          work</span>, <a href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC
+          BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=42853056">Link</a>
+      </p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/combine/npm/jquery,npm/lightgallery,npm/lg-pager,npm/lg-thumbnail"></script>
+    <script src="../src/js/exif.js"></script>
+    <script src="../src/js/lg-exif.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#lightgallery").lightGallery({selector: '.item'});
+      });
+    </script>
   </body>
 
 </html>

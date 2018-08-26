@@ -33,7 +33,7 @@
             if (value === "ExposureTime" && data < 1) {
                 data = "1/" + Math.round(1 / parseFloat(data));
             } else if (value === "DateTimeOriginal") {
-                data = exifdate.parse(data).toLocaleString();
+                data = this.parseDate(data).toLocaleString();
             } else if (!isNaN(data)) {
                 data = parseFloat(data);
             }
@@ -72,11 +72,14 @@
     }
 
     Exif.prototype.init = function () {
+        console.log(this);
+        
         $('.lg').parent().prepend('<div class="lg-exif hidden"><div><h3>Image Information</h3>\
         <span class="lg-hide lg-icon"></span></div><hr><div class="content"></div></div>');
         
         const _this = this;
         $('#media').on('onAfterSlide.lg', function() {
+            console.log("update");
             _this.update();
         });
 
@@ -89,6 +92,16 @@
         }
 
         this.update();
+    }
+
+    /* From RobG: https://stackoverflow.com/questions/43083993
+    * Parse date string in YYYY-MM-DD hh:mm:ss format
+    * separator can be any non-digit character
+    * e.g. 2017:03:09 14:49:21 OR 2017-03-09 14:49:21
+    */
+    Exif.prototype.parseDate = function(s) {
+        var b = s.split(/\D/);
+        return new Date(b[0], b[1] - 1, b[2], b[3], b[4], b[5]);
     }
 
     /**
