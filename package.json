@@ -1,0 +1,35 @@
+{
+  "name": "lg-exif",
+  "version": "1.0.0",
+  "description": "A plugin for lightgallery which adds an exif panel",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amcolash/lg-exif.git"
+  },
+  "keywords": [
+    "lightgallery",
+    "maps",
+    "exif",
+    "info",
+    "photo"
+  ],
+  "author": "Andrew McOlash",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amcolash/lg-exif/issues"
+  },
+  "homepage": "https://github.com/amcolash/lg-exif#readme",
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-uglify-es": "^1.0.4",
+    "gulp-uglifycss": "^1.1.0",
+    "run-sequence": "^2.2.1"
+  }
+}
