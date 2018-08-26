@@ -29,6 +29,7 @@
             label = (label || value) + ": ";
             prefix = prefix || "";
             suffix = suffix || "";
+            var style = "";
 
             if (value === "ExposureTime" && data < 1) {
                 data = "1/" + Math.round(1 / parseFloat(data));
@@ -44,7 +45,12 @@
                 data = +parseFloat(data).toFixed(2);
             }
 
-            this.html += '<li>' + label + prefix + data + suffix + '</li>';
+            if (value === 'Make' || value === 'Model') {
+                data = data.toLowerCase();
+                style = 'style="text-transform: capitalize;"';
+            }
+
+            this.html += '<li ' + style + '>' + label + prefix + data + suffix + '</li>';
         }
     }
 
@@ -54,12 +60,13 @@
         this.appendData("Filename");
         this.appendData("DateTimeOriginal", "Date Taken");
         this.appendData("SourceResolution", "Resolution");
-        this.appendData("FNumber", "Aperature", "F");
+        this.appendData("FNumber", "Aperature", "f/");
         this.appendData("ExposureTime", "Exposure", "", " sec");
         this.appendData("ISOSpeedRatings", "ISO");
         this.appendData("FocalLength", "Focal Length", "", "mm");
-        this.appendData("Make");
+        this.appendData("LensModel", "Lens");
         this.appendData("Model");
+        this.appendData("Make");
 
         if (this.exif.Geo) {
             this.html += '<hr>';
