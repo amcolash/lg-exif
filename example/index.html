@@ -2,28 +2,38 @@
 
   <head>
     <title>Lightgallery Exif Test</title>
+
+    <!-- Include base lightgallery styling -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery/dist/css/lightgallery.min.css">
-    <link rel="stylesheet" href="../src/css/leaflet.css">
-    <link rel="stylesheet" href="../src/css/lg-exif.css">
+
+    <!-- lg-exif styles -->
+    <link rel="stylesheet" href="../dist/css/lg-exif.min.css">
   </head>
 
   <body style="font-family: sans-serif">
     <h3>Test Page (Click on Image)</h3>
+
+    <!-- LightGallery -->
     <div id="lightgallery">
+
+      <!-- Image 1 -->
       <a href="test.jpg" class="item">
         <img src="test.jpg" width="500px"/>
       </a>
       
+      <!-- Attribution 1 -->
       <p>
         By <a href="//commons.wikimedia.org/wiki/User:Tobi_87" title="User:Tobi 87">Tobi 87</a> - <span class="int-own-work" lang="en">Own
           work</span>, <a href="https://creativecommons.org/licenses/by-sa/3.0" title="Creative Commons Attribution-Share Alike 3.0">CC
           BY-SA 3.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=35923667">Link</a>
       </p>
 
+      <!-- Image 2 -->
       <a href="test2.jpg" class="item">
         <img src="test2.jpg" width="500px"/>
       </a>
 
+      <!-- Attribution 2 -->
       <p>
         By <a href="//commons.wikimedia.org/wiki/User:Uoaei1" title="User:Uoaei1">Uoaei1</a> - <span class="int-own-work" lang="en">Own
           work</span>, <a href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC
@@ -31,15 +41,19 @@
       </p>
     </div>
 
+    <!-- Include lightgallery + pager + thumbnail plugins -->
     <script src="https://cdn.jsdelivr.net/combine/npm/jquery,npm/lightgallery,npm/lg-pager,npm/lg-thumbnail"></script>
-    <script src="../src/js/exif.js"></script>
-    <script src="../src/js/leaflet.js"></script>
-    <script src="../src/js/lg-exif.js"></script>
+
+    <!-- lg-exif plugin -->
+    <script src="../dist/js/lg-exif.min.js"></script>
+
+    <!-- Init lightgallery -->
     <script>
       $(document).ready(function () {
         $("#lightgallery").lightGallery({selector: '.item'});
       });
     </script>
+    
   </body>
 
 </html>
