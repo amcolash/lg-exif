@@ -1,6 +1,8 @@
 # lightgallery-exif
 A plugin for lightgallery which adds an exif panel
 
+## [Demo](https://amcolash.github.io/lg-exif/example/)
+
 ## Attributions
 - jQuery based lightweight photo gallery: [lightgallery](http://sachinchoolur.github.io/lightGallery)
 - Simple js map library: [LeafletJS](https://leafletjs.com/)
