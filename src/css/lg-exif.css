@@ -8,6 +8,7 @@
     padding: 1em;
     float: right;
     height: 100%;
+    width: 300px;
     max-width: 300px;
     margin-right: 0;
     background-color: #0D0A0A;
@@ -22,13 +23,17 @@
     color: #ccc;
 }
 
+.lg-exif #map {
+    height: 300px;
+}
+
 .lg-exif ul {
     padding: 0;
 }
 
 .lg-exif li {
     list-style: none;
-    padding-top: 0.5em;
+    padding: 0.25em 0;
     text-overflow: ellipsis;
     overflow: hidden;
 }
