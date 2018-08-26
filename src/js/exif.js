@@ -27,6 +27,7 @@
 
         // colorspace tags
         0xA001 : "ColorSpace",              // Color space information tag
+        0xA500 : "Gamma",                       // Gamma
 
         // image configuration
         0xA002 : "PixelXDimension",         // Valid width of meaningful image
@@ -55,6 +56,12 @@
         0x8824 : "SpectralSensitivity",     // Spectral sensitivity
         0x8827 : "ISOSpeedRatings",         // ISO speed rating
         0x8828 : "OECF",                    // Optoelectric conversion factor
+        0x8830 : "SensitivityType",             // Sensitivity type
+        0x8831 : "StandardOutputSensitivity",   // Standard output sensitivity
+        0x8832 : "RecommendedExposureIndex",    //Sensing method
+        0x8833 : "ISOSpeed",                    //ISO Speed
+        0x8834 : "ISOSpeedLatitudeyyy",         //ISO speed latitude YYY
+        0x8835 : "ISOSpeedLatitudezzz",         //ISO speed latitude zzz
         0x9201 : "ShutterSpeedValue",       // Shutter speed
         0x9202 : "ApertureValue",           // Lens aperture
         0x9203 : "BrightnessValue",         // Value of brightness
@@ -92,7 +99,13 @@
 
         // other tags
         0xA005 : "InteroperabilityIFDPointer",
-        0xA420 : "ImageUniqueID"            // Identifier assigned uniquely to each image
+        0xA420 : "ImageUniqueID",            // Identifier assigned uniquely to each image
+        0xA430 : "CameraOwnerName",          // Owner of the camera
+        0xA431 : "BodySerialNumber",         // Body serial number
+        0xA432 : "LensSpecification",        // Lens specification
+        0xA433 : "LensMake",                 // Lens make
+        0xA434 : "LensModel",                // Lens model
+        0xA435 : "LensSerialNumber"          // Lens serial number
     };
 
     var TiffTags = EXIF.TiffTags = {
@@ -162,7 +175,8 @@
         0x001B : "GPSProcessingMethod",
         0x001C : "GPSAreaInformation",
         0x001D : "GPSDateStamp",
-        0x001E : "GPSDifferential"
+        0x001E : "GPSDifferential",
+        0x001F : "GPSHPositioningError" // Horizontal positioning error
     };
 
      // EXIF 2.3 Spec
@@ -521,7 +535,20 @@
         0x7A : 'captionWriter',
         0x69 : 'headline',
         0x74 : 'copyright',
-        0x0F : 'category'
+        0x0F : 'category',
+        0x10 : 'imageRank',
+        0x65 : 'country',
+        0x73 : 'source',
+        0x5C : 'venue',
+        0x5a : 'city',
+        0x05 : 'objectName',
+        0x07 : 'editStatus',
+        0x14 : 'supplementalCategories',
+        0x64 : 'countryCode',
+        0x5f : 'state',
+        0x28 : 'specialInstructions',
+        0x65 : 'composition',
+        0x4b : 'objectCycle'
     };
     function readIPTCData(file, startOffset, sectionLength){
         var dataView = new DataView(file);
