@@ -31,6 +31,10 @@ gulp.task('dist', ['minify', 'copy']);
 gulp.task('minify', ['scripts', 'styles']);
 gulp.task('copy', ['copy_fonts', 'copy_images']);
 
+gulp.task('watch', function () {
+    gulp.watch('src/**/*', ['default'])
+});
+
 // Actual tasks
 
 gulp.task('scripts', function () {
