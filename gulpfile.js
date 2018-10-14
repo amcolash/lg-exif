@@ -1,10 +1,10 @@
 const gulp = require('gulp');
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
-const uglify = require('gulp-uglify-es').default;
 const uglifycss = require('gulp-uglifycss');
 const del = require('del');
 const browserSync = require('browser-sync');
+const butternut = require('gulp-butternut');
 
 // Lots o' paths
 const paths = {
@@ -40,7 +40,7 @@ gulp.task('css', () => {
 // Minify Tasks
 gulp.task('minify-js', () => {
     return gulp.src(paths.js.dest + paths.baseName + '.js')
-        .pipe(uglify())
+        .pipe(butternut())
         .pipe(rename(paths.baseName + '.min.js'))
         .pipe(gulp.dest(paths.js.dest));
 });
