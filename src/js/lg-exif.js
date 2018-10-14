@@ -133,6 +133,10 @@
         const _this = this;
         this.$el.on('onAfterSlide.lg', function() {
             _this.update();
+            $('.lg-exif .content').fadeIn(300);
+        });
+        this.$el.on('onBeforeSlide.lg', function () {
+            $('.lg-exif .content').fadeOut(300);
         });
 
         // Inject info button before close button

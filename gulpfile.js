@@ -63,7 +63,7 @@ gulp.task('minify', gulp.parallel(gulp.series('js', 'minify-js'), gulp.series('c
 gulp.task('default', gulp.series('minify'));
 
 // Live reload via browser sync
-gulp.task('serve', gulp.series('concat', () => {
+gulp.task('serve', gulp.series('default', () => {
     browserSync.init({
         server: {
             basedir: './'
