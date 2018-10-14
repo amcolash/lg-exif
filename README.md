@@ -14,13 +14,17 @@ A plugin for lightgallery which adds an exif panel
 <script src="js/lg-exif.min.js"></script>
 ```
 
+Note: You can either rely on the exif information from the image files themselves or use
+data attributes (for thumbsup)... Docs to come some day ;)
+
 TODO: Look into `npm` / `bower` as better ways to install this...
 
 ## Building It
 It couldn't be much easier to get a minifed version from scratch!
 ```
-npm install
-gulp
+$ npm install
+$ npm install -g gulp-cli     # If you don't already have gulp globally installed
+$ gulp
 ```
 
 ## Attributions

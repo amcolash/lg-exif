@@ -1138,11 +1138,11 @@
             } else if (value === "DateTimeOriginal") {
                 data = this.parseDate(data).toLocaleString();
             } else if (value === "GPSLatitude" && this.exif.Geo) {
-                data = Math.abs(this.exif.Geo[0].toFixed(5));
-                suffix = " " + this.exif.GPSLatitudeRef;
+                data = Number.parseFloat(Math.abs(this.exif.Geo[0]).toFixed(5));
+                if (this.exif.GPSLatitudeRef) suffix = " " + this.exif.GPSLatitudeRef;
             } else if (value === "GPSLongitude" && this.exif.Geo) {
-                data = Math.abs(this.exif.Geo[1].toFixed(5));
-                suffix = " " + this.exif.GPSLongitudeRef;
+                data = Number.parseFloat(Math.abs(this.exif.Geo[1]).toFixed(5));
+                if (this.exif.GPSLongitudeRef) suffix = " " + this.exif.GPSLongitudeRef;
             } else if (!isNaN(data)) {
                 data = +parseFloat(data).toFixed(2);
             }
@@ -1194,22 +1194,59 @@
         }
     }
 
+    // ONLY MODIFIED FUNCTION (For thumbsup)
     Exif.prototype.update = function() {
         const _this = this;
         const thumbnail = this.core.$items.get(this.core.index);
-        const img = $(thumbnail).find('img').get(0);
 
-        EXIF.getData(img, function () {
-            _this.exif = EXIF.getAllTags(this);
-            // console.log(_this.exif);
+        // Check if we should use data attributes (thumbsup) or exif
+        let useData = thumbnail.dataset.filename;
+        if (useData) {
+            _this.exif = {
+                Filename: thumbnail.dataset.filename,
+                DateTimeOriginal: thumbnail.dataset.datetimeoriginal,
+                SourceResolution: thumbnail.dataset.sourceresolution,
+                FNumber: thumbnail.dataset.fnumber,
+                ExposureTime: thumbnail.dataset.exposuretime,
+                ISOSpeedRatings: thumbnail.dataset.isospeedratings,
+                FocalLength: thumbnail.dataset.focallength,
+                LensModel: thumbnail.dataset.lensmodel,
+                Model: thumbnail.dataset.model,
+                Make: thumbnail.dataset.make,
+                GPSLatitude: thumbnail.dataset.gpslatitude,
+                GPSLongitude: thumbnail.dataset.gpslongitude,
+                GPSLatitudeRef: thumbnail.dataset.gpslatituderef,
+                GPSLongitudeRef: thumbnail.dataset.gpslongituderef,
+                GPSAltitude: thumbnail.dataset.gpsaltitude,
+            };
+
             _this.exif.Geo = _this.getGeo();
-            _this.exif.Filename = img.alt;
-
-            // Keeping this out for now since it is not reliable, might need a mix of things for resolution
-            // _this.exif.SourceResolution = _this.exif.PixelXDimension + "x" + _this.exif.PixelYDimension;
-
             _this.renderExif();
-        });
+        } else {
+            const img = $(thumbnail).find('img').get(0);
+
+            EXIF.getData(img, function () {
+                _this.exif = EXIF.getAllTags(this);
+                _this.exif.Filename = img.alt;
+                
+                // Keeping this out for now since it is not reliable, might need a mix of things for resolution
+                // _this.exif.SourceResolution = _this.exif.PixelXDimension + "x" + _this.exif.PixelYDimension;
+
+                _this.exif.Geo = _this.getGeo();
+                _this.renderExif();
+            });
+        }
+
+        if (typeof USE_DATA_ATTRIBUTES !== "undefined") {
+            let title = "Image Information";
+            if (useData) {
+                title += " (Data)";
+            } else {
+                title += " (EXIF)";
+            }
+
+            $('.lg-exif h3').html(title);
+        }
     }
 
     Exif.prototype.init = function () {

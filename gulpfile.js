@@ -68,7 +68,8 @@ gulp.task('serve', gulp.series('default', () => {
         server: {
             basedir: './'
         },
-        startPath: paths.example
+        startPath: paths.example,
+        files: paths.example + '**/*'
     });
 
     gulp.watch(paths.js.src, gulp.series('js'));
