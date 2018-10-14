@@ -4,45 +4,73 @@ const rename = require('gulp-rename');
 const uglify = require('gulp-uglify-es').default;
 const uglifycss = require('gulp-uglifycss');
 const del = require('del');
+const browserSync = require('browser-sync');
 
-// Lots o' constants
-const baseName = 'lg-exif';
-const dest = 'dist';
+// Lots o' paths
+const paths = {
+    baseName: 'lg-exif',
+    src: 'src/',
+    dest: 'dist/',
+    example: 'example/',
+    js: {
+        get src () { return paths.src + 'js/**/*.js' },
+        get dest () { return paths.dest + 'js/' }
+    },
+    css: {
+        get src() { return paths.src + 'css/**/*.css' },
+        get dest() { return paths.dest + 'css/' }
+    }
+};
 
-const jsFiles = 'src/js/**/*.js';
-const jsDest = dest + '/js';
-
-const cssFiles = 'src/css/**/*.css';
-const cssDest = dest + '/css';
-
-// Actual tasks
-gulp.task('watch', function () {
-    gulp.watch('src/**/*', ['default'])
+// Concat Tasks
+gulp.task('js', () => {
+    return gulp.src(paths.js.src)
+        .pipe(concat(paths.baseName + '.js'))
+        .pipe(gulp.dest(paths.js.dest))
+        .pipe(browserSync.reload({ stream: true }));
 });
 
-gulp.task('scripts', function () {
-    return gulp.src(jsFiles)
-        .pipe(concat(baseName + '.js'))
-        .pipe(gulp.dest(jsDest))
-        .pipe(rename(baseName + '.min.js'))
+gulp.task('css', () => {
+    return gulp.src(paths.css.src)
+        .pipe(concat(paths.baseName + '.css'))
+        .pipe(gulp.dest(paths.css.dest))
+        .pipe(browserSync.reload({ stream: true }));
+});
+
+// Minify Tasks
+gulp.task('minify-js', () => {
+    return gulp.src(paths.js.dest + paths.baseName + '.js')
         .pipe(uglify())
-        .pipe(gulp.dest(jsDest));
+        .pipe(rename(paths.baseName + '.min.js'))
+        .pipe(gulp.dest(paths.js.dest));
 });
 
-gulp.task('styles', function () {
-    return gulp.src(cssFiles)
-        .pipe(concat(baseName + '.css'))
-        .pipe(gulp.dest(cssDest))
-        .pipe(rename(baseName + '.min.css'))
+gulp.task('minify-css', () => {
+    return gulp.src(paths.css.dest + paths.baseName + '.css')
         .pipe(uglifycss())
-        .pipe(gulp.dest(cssDest));
+        .pipe(rename(paths.baseName + '.min.css'))
+        .pipe(gulp.dest(paths.css.dest));
 });
 
-gulp.task('clean', function () {
-    return del(dest + '/**', { force: true });
+// Other Tasks
+gulp.task('clean', () => {
+    return del(paths.dest, { force: true });
 });
 
 // Meta Tasks
-gulp.task('minify', gulp.parallel('scripts', 'styles'));
-gulp.task('default', gulp.series('clean', 'minify'));
+gulp.task('concat', gulp.series('clean', gulp.parallel('js', 'css')));
+gulp.task('minify', gulp.parallel(gulp.series('js', 'minify-js'), gulp.series('css', 'minify-css')));
+gulp.task('default', gulp.series('minify'));
 
+// Live reload via browser sync
+gulp.task('serve', gulp.series('concat', () => {
+    browserSync.init({
+        server: {
+            basedir: './'
+        },
+        startPath: paths.example
+    });
+
+    gulp.watch(paths.js.src, gulp.series('js'));
+    gulp.watch(paths.css.src, gulp.series('css'));
+}));
