@@ -645,7 +645,7 @@
 /* Fixes for lightgallery */
 .lg {
     width: auto !important;
-    border-right: 2px solid #666;
+    border-right: 0.167em solid #666;
 }
 
 .lg-info:after {
@@ -666,7 +666,7 @@
   text-transform: none;
   line-height: 1;
 
-  padding-top: 12px;
+  padding-top: 0.5em;
 
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
@@ -679,19 +679,20 @@
     padding: 1em;
     float: right;
     height: 100%;
-    width: 300px;
-    max-width: 300px;
+    width: 20em;
+    max-width: 20em;
     margin-right: 0;
     background-color: #0D0A0A;
     transition: all 0.25s;
 }
 
 .lg-exif.hidden {
-    margin-right: -300px;
+    margin-right: -20em;
 }
 
 .lg-exif #map {
-    height: 300px;
+    height: 20em;
+    margin-top: 1em;
 }
 
 .lg-exif ul {
@@ -707,13 +708,15 @@
 
 .lg-exif h3 {
     float: left;
+    font-size: 1.2em;
+    padding-bottom: 0.4em;
 }
 
 .lg-exif .lg-hide {
     float: right;
     color: #999;
-    font-size: 22px;
-    margin-top: -4px;
+    font-size: 1.375em;
+    margin-top: -0.333em;
     cursor: pointer;
 }
 
