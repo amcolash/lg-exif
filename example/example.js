@@ -33,8 +33,8 @@ function addData() {
             thumbnail.dataset.sourceresolution = "4000x3000";
             thumbnail.dataset.datetimeoriginal = "8/10/2013, 7:00:10 PM";
             thumbnail.dataset.fnumber = "5.6";
-            thumbnail.dataset.exposure = "1/15";
-            thumbnail.dataset.isospeedrating = "125";
+            thumbnail.dataset.exposuretime = "1/15";
+            thumbnail.dataset.isospeedratings = "125";
             thumbnail.dataset.focallength = "300";
             thumbnail.dataset.model = "Nikon D600";
             thumbnail.dataset.make = "Nikon Corporation";
@@ -43,10 +43,10 @@ function addData() {
             thumbnail.dataset.sourceresolution = "3000x4000";
             thumbnail.dataset.datetimeoriginal = "9/24/2014, 12:17:44 PM";
             thumbnail.dataset.fnumber = "8";
-            thumbnail.dataset.exposure = "1/45";
-            thumbnail.dataset.isospeedrating = "100";
+            thumbnail.dataset.exposuretime = "1/45";
+            thumbnail.dataset.isospeedratings = "100";
             thumbnail.dataset.focallength = "15";
-            thumbnail.dataset.lens = "8.0-16.0 mm f/4.5-5.6";
+            thumbnail.dataset.lensmodel = "8.0-16.0 mm f/4.5-5.6";
             thumbnail.dataset.model = "Nikon D7100";
             thumbnail.dataset.make = "Nikon Corporation";
             thumbnail.dataset.gpslatitude = "48.61739";
@@ -67,10 +67,10 @@ function deleteData() {
         delete thumbnail.dataset.sourceresolution;
         delete thumbnail.dataset.datetimeoriginal;
         delete thumbnail.dataset.fnumber;
-        delete thumbnail.dataset.exposure;
-        delete thumbnail.dataset.isospeedrating;
+        delete thumbnail.dataset.exposuretime;
+        delete thumbnail.dataset.isospeedratings;
         delete thumbnail.dataset.focallength;
-        delete thumbnail.dataset.lens;
+        delete thumbnail.dataset.lensmodel;
         delete thumbnail.dataset.model;
         delete thumbnail.dataset.make;
         delete thumbnail.dataset.gpslatitude;

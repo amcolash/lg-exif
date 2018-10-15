@@ -25,8 +25,8 @@
         this.core.s = $.extend({}, defaults, this.core.s)
 
         this.exif = {};
-        this.element;
         this.html = '';
+        this.fadeDuration = 250;
 
         this.init();
 
@@ -41,16 +41,21 @@
             suffix = suffix || "";
             var style = "";
 
+            // Prevent double prefix / suffix (hopefully)
+            if (typeof data === "string" && data.startsWith(prefix)) prefix = "";
+            if (typeof data === "string" && data.endsWith(suffix)) suffix = "";
+
+            // Special parsing of things
             if (value === "ExposureTime" && data < 1) {
                 data = "1/" + Math.round(1 / parseFloat(data));
             } else if (value === "DateTimeOriginal") {
                 data = this.parseDate(data).toLocaleString();
             } else if (value === "GPSLatitude" && this.exif.Geo) {
                 data = Number.parseFloat(Math.abs(this.exif.Geo[0]).toFixed(5));
-                if (this.exif.GPSLatitudeRef) suffix = " " + this.exif.GPSLatitudeRef;
+                if (this.exif.GPSLatitudeRef) suffix = " " + this.exif.GPSLatitudeRef.replace("North", "N").replace("South", "S");
             } else if (value === "GPSLongitude" && this.exif.Geo) {
                 data = Number.parseFloat(Math.abs(this.exif.Geo[1]).toFixed(5));
-                if (this.exif.GPSLongitudeRef) suffix = " " + this.exif.GPSLongitudeRef;
+                if (this.exif.GPSLongitudeRef) suffix = " " + this.exif.GPSLongitudeRef.replace("East", "E").replace("West", "W");
             } else if (!isNaN(data)) {
                 data = +parseFloat(data).toFixed(2);
             }
@@ -87,22 +92,15 @@
 
         this.html += '</ul>';
 
-        if (this.exif.Geo) {
-            this.html += '<div id="map"></div>';
-        }
-
         $('.lg-exif .content').html(this.html);
 
         if (this.exif.Geo) {
-            var map = L.map('map').setView(this.exif.Geo, 15);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-            L.marker(this.exif.Geo, {icon: customIcon}).addTo(map);
+            $('#map').fadeIn(this.fadeDuration);
+            this.map.setView(this.exif.Geo, 15);
+            this.marker.setLatLng(this.exif.Geo);
         }
     }
 
-    // ONLY MODIFIED FUNCTION (For thumbsup)
     Exif.prototype.update = function() {
         const _this = this;
         const thumbnail = this.core.$items.get(this.core.index);
@@ -113,7 +111,7 @@
             _this.exif = {
                 Filename: thumbnail.dataset.filename,
                 DateTimeOriginal: thumbnail.dataset.datetimeoriginal,
-                SourceResolution: thumbnail.dataset.sourceresolution,
+                // SourceResolution: thumbnail.dataset.sourceresolution,
                 FNumber: thumbnail.dataset.fnumber,
                 ExposureTime: thumbnail.dataset.exposuretime,
                 ISOSpeedRatings: thumbnail.dataset.isospeedratings,
@@ -135,7 +133,7 @@
 
             EXIF.getData(img, function () {
                 _this.exif = EXIF.getAllTags(this);
-                _this.exif.Filename = img.alt;
+                _this.exif.Filename = img.src.replace(/^.*[\\\/]/, '');
                 
                 // Keeping this out for now since it is not reliable, might need a mix of things for resolution
                 // _this.exif.SourceResolution = _this.exif.PixelXDimension + "x" + _this.exif.PixelYDimension;
@@ -145,6 +143,7 @@
             });
         }
 
+        // Testing code only applicable for the example
         if (typeof USE_DATA_ATTRIBUTES !== "undefined") {
             let title = "Image Information";
             if (useData) {
@@ -160,7 +159,8 @@
     Exif.prototype.init = function () {
         // Define the base panel template
         const template = '<div class="lg-exif hidden"><div><h3>Image Information</h3>\
-        <span class="lg-hide lg-icon"></span></div><hr><div class="content"></div></div>';
+        <span class="lg-hide lg-icon"></span></div><hr><div class="content"></div>\
+        <div id="map"</div></div>';
 
         // Inject template into lg + get a reference to the root
         this.core.$outer.prepend(template);
@@ -170,10 +170,13 @@
         const _this = this;
         this.$el.on('onAfterSlide.lg', function() {
             _this.update();
-            $('.lg-exif .content').fadeIn(300);
+            $('.lg-exif .content').fadeIn(_this.fadeDuration);
         });
         this.$el.on('onBeforeSlide.lg', function () {
-            $('.lg-exif .content').fadeOut(300);
+            $('.lg-exif .content').fadeOut(_this.fadeDuration);
+            $('#map').fadeOut(_this.fadeDuration, () => {
+                _this.map.setZoom(15);
+            });
         });
 
         // Inject info button before close button
@@ -184,6 +187,19 @@
         this.core.$outer.find('.lg-toolbar .lg-info, .lg-exif .lg-hide').on('click', function () {
             _this.element.toggleClass('hidden');
         });
+
+        // Add map to pane, hide until needed
+        this.marker = L.marker([0,0], { icon: customIcon });
+        this.map = L.map('map', {
+            zoom: 15,
+            layers: [
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }),
+                this.marker
+            ],
+        });
+        $('#map').hide();
 
         // Update info based on current image
         this.update();
@@ -201,8 +217,8 @@
 
     Exif.prototype.getGeo = function() {
         if (this.exif.GPSLatitude && this.exif.GPSLongitude) {
-            var lat = this.parseDMS(this.exif.GPSLatitude) * (this.exif.GPSLatitudeRef === "S" ? -1 : 1);
-            var lng = this.parseDMS(this.exif.GPSLongitude) * (this.exif.GPSLongitudeRef === "W" ? -1 : 1);
+            var lat = this.parseDMS(this.exif.GPSLatitude) * ((this.exif.GPSLatitudeRef === "S" || this.exif.GPSLatitudeRef === "South") ? -1 : 1);
+            var lng = this.parseDMS(this.exif.GPSLongitude) * ((this.exif.GPSLongitudeRef === "W" || this.exif.GPSLongitudeRef === "West") ? -1 : 1);
             return [lat, lng];
         }
 
