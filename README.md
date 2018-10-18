@@ -4,8 +4,8 @@ A plugin for lightgallery which adds an exif panel
 ## [Demo](https://amcolash.github.io/lg-exif/example/)
 
 ## Using It
-- Copy the files from the `dist` folder to your own location.
-- You can choose either minified or non-minified, both are not necessary.
+- Copy the files from the `dist` folder to your own project.
+- You can choose either minified or non-minified, you only need one of the sets - both are not necessary.
 - Add the stylesheet + script into your html files (where you created the lightgallery):
 
 ```
@@ -14,10 +14,30 @@ A plugin for lightgallery which adds an exif panel
 <script src="js/lg-exif.min.js"></script>
 ```
 
-Note: You can either rely on the exif information from the image files themselves or use
-data attributes (for thumbsup)... Docs to come some day ;)
+There are 2 ways for this plugin to work.
 
-TODO: Look into `npm` / `bower` as better ways to install this...
+1) Use EXIF info from the image files themseleves. This plugin can scrape the exif info off of the thumbnails that are on the page. This is the simplest if you already have the info hanging around.
+
+2) Use data attributes for images in the gallery. Below is a list of data attributes / corresponding exif names
+
+## EXIF Info Provided
+
+| EXIF Value | Data Attribute |
+|------------|----------------|
+| Filename | `data-filename` |
+| DateTimeOriginal | `data-datetimeoriginal` |
+| FNumber | `data-fnumber` |
+| ExposureTime | `data-exposuretime` |
+| ISOSpeedRatings | `data-isospeedratings` |
+| FocalLength | `data-focallength` |
+| LensModel | `data-lensmodel` |
+| Model | `data-model` |
+| Make | `data-make` |
+| GPSLatitude | `data-gpslatitude` |
+| GPSLongitude | `data-gpslongitude` |
+| GPSLatitudeRef | `data-gpslatituderef` |
+| GPSLongitudeRef | `data-gpslongituderef` |
+| GPSAltitude | `data-gpsaltitude` |
 
 ## Building It
 It couldn't be much easier to get a minifed version from scratch!
